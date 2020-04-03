@@ -20,14 +20,16 @@ public class MainActivity extends AppCompatActivity {
     int activePlayer = 0;
 
     boolean gameActive = true;
+    int tempcounter=0;
 
     public void dropIn(View view) {
 
         ImageView counter = (ImageView) view;
+        tempcounter++;
 
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (gameState[tappedCounter] == 2 && gameActive) {
+        if (gameState[tappedCounter] == 2 && tempcounter!=9 && gameActive) {
 
             gameState[tappedCounter] = activePlayer;
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             for (int[] winningPosition : winningPositions) {
 
-                if (gameState[winningPosition[0]] == gameState[winningPosition[1]] && gameState[winningPosition[1]] == gameState[winningPosition[2]] && gameState[winningPosition[0]] != 2) {
+                if ((gameState[winningPosition[0]] == gameState[winningPosition[1]] && gameState[winningPosition[1]] == gameState[winningPosition[2]] && gameState[winningPosition[0]] != 2) && tempcounter!=9) {
 
                     // Somone has won!
 
@@ -62,9 +64,10 @@ public class MainActivity extends AppCompatActivity {
                     if (activePlayer == 1) {
 
                         winner = "Yellow";
+                        tempcounter=0;
 
                     } else {
-
+                        tempcounter=0;
                         winner = "Red";
 
                     }
@@ -82,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+        }
+        else if(tempcounter == 9){
+            tempcounter = 0;
+            Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
+            TextView result = (TextView) findViewById(R.id.winnerTextView);
+            String winner = "Nobody won!!";
+            result.setText(winner);
+            playAgainButton.setVisibility(View.VISIBLE);
+            result.setVisibility(View.VISIBLE);
         }
     }
 
